@@ -2,11 +2,7 @@ package com.capgemini.go.id;
 
 import java.io.Serializable;
 
-
-
-
-
-public class CartId {
+public class CartId implements Serializable {
 	
 	private String userId;
 	

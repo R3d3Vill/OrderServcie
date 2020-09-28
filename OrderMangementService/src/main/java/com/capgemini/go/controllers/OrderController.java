@@ -18,7 +18,10 @@ import com.capgemini.go.dto.OrderDTO;
 import com.capgemini.go.entities.OrderItemEntity;
 import com.capgemini.go.service.OrderService;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api
 public class OrderController {
 	@Autowired
 	OrderService orderService;

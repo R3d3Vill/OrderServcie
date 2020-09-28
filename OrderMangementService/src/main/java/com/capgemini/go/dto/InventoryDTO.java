@@ -5,13 +5,13 @@ import com.capgemini.go.id.InventoryId;
 public class InventoryDTO {
 
 	private InventoryId inventoryId;
-	private int quantity;
+	private int units;
 	
 	
 	public InventoryDTO(InventoryId inventoryId, int quantity) {
 		super();
 		this.inventoryId = inventoryId;
-		this.quantity = quantity;
+		this.units = quantity;
 	}
 	
 	public InventoryId getInventoryId() {
@@ -21,10 +21,10 @@ public class InventoryDTO {
 		this.inventoryId = inventoryId;
 	}
 	public int getQuantity() {
-		return quantity;
+		return units;
 	}
 	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+		this.units = quantity;
 	}
 	
 	

@@ -1,12 +1,16 @@
 package com.capgemini.go.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.capgemini.go.dao.OrderDAO;
 import com.capgemini.go.dao.OrderItemDAO;
@@ -25,7 +29,9 @@ import org.slf4j.LoggerFactory;
 public class OrderServiceImpl implements OrderService {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	@Autowired
+	RestTemplate restTemplate;
+	
 	@Autowired
 	OrderDAO orderDao;
 	@Autowired
@@ -60,17 +66,16 @@ public class OrderServiceImpl implements OrderService {
 
 		// Cart Service method required to fetch all products in cart for a particular
 		// user
-		List<CartDTO> cartItems = new LinkedList<CartDTO>();
-		cartItems.add(new CartDTO(new CartId("U10001", "P10001"), 3));
-		cartItems.add(new CartDTO(new CartId("U10001", "P10002"), 1));
-
+		CartDTO[] cartItems = restTemplate.getForObject("http://cart-service/user/cart/"+userId,CartDTO[].class);
 		// Received from Cart Service
-		double amount = 1700;
-		// Todays Date
-		LocalDate dateOfOrder = LocalDate.now();
+		logger.warn(""+cartItems);
 
 		// saving to Order Table
-		orderDao.save(new OrderEntity(temp, userId, "Accepted", amount, dateOfOrder));
+		orderDao.save(new OrderEntity(temp, userId, 
+										"Accepted", 
+										restTemplate.getForObject("http://cart-service/user/cartValue/"+userId, Double.class), 
+										LocalDate.now())
+										);
 
 		for (CartDTO product : cartItems) {
 			// saving to order Product Mapping
@@ -83,12 +88,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public String fetchRetailer(String productId, int quantity) {
-		// List of Retailers for Product Id and stocks greater than quantity from
-		// Inventory Service
-		List<String> retailerIds = new LinkedList<String>();
-		retailerIds.add("R10002");
-		retailerIds.add("R10003");
-		return retailerIds.get(new Random().nextInt(retailerIds.size()));
+		Map<String, String> inputs=new HashMap<String, String>();
+			inputs.put("productId",productId);
+			inputs.put("units",Integer.toString(quantity));
+	String[] reatailerIds=	restTemplate.postForObject("http://inventory-service/api/getRetailerIds/",inputs, String[].class);
+		if(reatailerIds.length>0) {
+				return reatailerIds[(new Random().nextInt(reatailerIds.length))];
+		}
+		else {
+			throw new IllegalOrderActionException("Not enough Units available to Order");
+		}
 
 	}
 

@@ -1,7 +1,9 @@
 package com.capgemini.go.dto;
 
 import com.capgemini.go.id.CartId;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CartDTO {
 
 	private CartId cartId;
@@ -27,6 +29,10 @@ public class CartDTO {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public CartDTO() {
+		super();
 	}
 	
 	

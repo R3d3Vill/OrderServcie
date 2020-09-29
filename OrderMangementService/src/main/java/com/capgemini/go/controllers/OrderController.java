@@ -31,39 +31,39 @@ public class OrderController {
 	public ResponseEntity<OrderDTO> getOrderById(@PathVariable("orderId") String orderId)
 	{
 		
-		return new ResponseEntity<OrderDTO>(orderService.viewOrderDetails(orderId),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.viewOrderDetails(orderId),HttpStatus.OK);
 	}
 	
 	
 	@GetMapping(value="/user/order/products/{orderId}")
 	public ResponseEntity<List<OrderItemEntity>> getAllProductsInOrder(@PathVariable("orderId")String orderId)
 	{
-		return new ResponseEntity<List<OrderItemEntity>>(orderService.getAllProductsInOrder(orderId),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.getAllProductsInOrder(orderId),HttpStatus.OK);
 	}
 	
 	
 	@PostMapping(value="/user/order/")
 	public ResponseEntity<String> placeOrder(@RequestBody String userId)
 	{
-		return new ResponseEntity<String>(orderService.placeOrder(userId),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.placeOrder(userId),HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/user/order/status/{orderID}")
 	public ResponseEntity<String> getOrderStatus(@PathVariable("orderID") String orderId)
 	{
-		return new ResponseEntity<String>(orderService.getOrderStatus(orderId),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.getOrderStatus(orderId),HttpStatus.OK);
 	}
 	
 	@PutMapping(value="/admin/order/status/")
 	public ResponseEntity<String> updateStatus(@RequestBody Map<String, String> orderStatus)
 	{
-		return new ResponseEntity<String>(orderService.changeStatusOfOrder(orderStatus.get("orderId"),orderStatus.get("status")),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.changeStatusOfOrder(orderStatus.get("orderId"),orderStatus.get("status")),HttpStatus.OK);
 	}
 	
 	@PutMapping(value="/user/order/products/")
 	public ResponseEntity<String> deleteOrderItem(@RequestBody Map<String, String> orderItem)
 	{
-		return new ResponseEntity<String>(orderService.deleteOrderItem(orderItem.get("orderId"),orderItem.get("productId")),HttpStatus.OK);
+		return new ResponseEntity<>(orderService.deleteOrderItem(orderItem.get("orderId"),orderItem.get("productId")),HttpStatus.OK);
 	}
 	
 	

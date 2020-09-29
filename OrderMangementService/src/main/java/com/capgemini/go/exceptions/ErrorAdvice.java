@@ -13,18 +13,18 @@ public class ErrorAdvice {
 	 @ExceptionHandler({ OrderNotFoundException.class, SQLException.class, NullPointerException.class })
 	    public ResponseEntity<Object> handle(OrderNotFoundException ce) {
 	   
-	        return new ResponseEntity<Object>(ce.getMessage(),HttpStatus.NOT_FOUND);
+	        return new ResponseEntity<>(ce.getMessage(),HttpStatus.NOT_FOUND);
 	    }
 	 
 	 @ExceptionHandler(DuplicateOrderException.class)
 	    public ResponseEntity<Object> handle(DuplicateOrderException ce) {
 	   
-	        return new ResponseEntity<Object>(ce.getMessage(),HttpStatus.BAD_REQUEST);
+	        return new ResponseEntity<>(ce.getMessage(),HttpStatus.BAD_REQUEST);
 	    }
 	 
 	 @ExceptionHandler(IllegalOrderActionException.class)
 	    public ResponseEntity<Object> handle(IllegalOrderActionException ce) {
 	   
-	        return new ResponseEntity<Object>(ce.getMessage(),HttpStatus.FORBIDDEN);
+	        return new ResponseEntity<>(ce.getMessage(),HttpStatus.FORBIDDEN);
 	    }
 }

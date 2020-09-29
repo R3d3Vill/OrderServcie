@@ -50,8 +50,18 @@ public class Order implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
+		
+		if (o == null)
+		    return false;
+
+		  if (this.getClass() != o.getClass())
+		    return false;
+
+	
         Order that= (Order) o;
         return orderId.equals(that.orderId)&&productId.equals(that.productId);
+		
+		
 	}
 	
 	@Override
